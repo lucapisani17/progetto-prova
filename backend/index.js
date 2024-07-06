@@ -1,36 +1,42 @@
 const express = require("express");
 const cors = require("cors");
+const mysql = require("mysql");
 const app = express();
 const port = 3000;
 
 // Middleware per gestire le richieste CORS
 app.use(cors());
 
-// Dummy data
-const products = [
-  {
-    id: 1,
-    name: "Product 1",
-    description: "Description for product 1",
-    price: 10,
-  },
-  {
-    id: 2,
-    name: "Product 2",
-    description: "Description for product 2",
-    price: 20,
-  },
-  {
-    id: 3,
-    name: "Product 3",
-    description: "Description for product 3",
-    price: 30,
-  },
-];
+// Configura la connessione al database MySQL
+const connection = mysql.createConnection({
+  host: "localhost",
+  user: "user", // Sostituisci con il tuo utente MySQL
+  password: "password",
+  database: "databaseV1", // Sostituisci con il tuo nome del database
+});
 
-// Endpoint per ottenere la lista dei prodotti
-app.get("/api/products", (req, res) => {
-  res.json(products);
+// Connetti al database MySQL
+connection.connect((err) => {
+  if (err) {
+    console.error("Errore di connessione al database: " + err.stack);
+    return;
+  }
+  console.log("Connesso al database con ID " + connection.threadId);
+});
+
+// Definisci una rotta per ottenere la lista delle bici
+app.get("/api/bikes", (req, res) => {
+  const query =
+    "SELECT bike_type, battery_level, latitude, longitude, partner_id, reserved, count_run FROM bikes";
+
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error("Errore durante l'esecuzione della query: " + error.stack);
+      res.status(500).send("Errore del server");
+      return;
+    }
+    res.json(results);
+  });
 });
 
 app.listen(port, () => {
