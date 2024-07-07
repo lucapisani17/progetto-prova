@@ -26,3 +26,7 @@ CREATE TABLE bikes (
     count_run INT DEFAULT 0,                           -- Conteggio delle corse
     FOREIGN KEY (partner_id) REFERENCES partners(partner_id) -- Chiave esterna
 );
+
+
+
+-- count_bike di partner serve un trigger che quando inserisci bici fa +1 a quel partner_id

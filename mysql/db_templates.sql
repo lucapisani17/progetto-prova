@@ -13,3 +13,4 @@ VALUES (UUID(), 'Electric Bike', 80, 45.464200, 9.191370,
         (SELECT partner_id FROM partners WHERE partner_name = 'Ristorante La Pergola'), 'no', 0),
        (UUID(), 'Road Bike', 90, 45.463000, 9.190160, 
         (SELECT partner_id FROM partners WHERE partner_name = 'Altro'), 'no', 0);
+
