@@ -1,11 +1,13 @@
 const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql");
+const bodyParser = require("body-parser");
 const app = express();
 const port = 3000;
 
 // Middleware per gestire le richieste CORS
 app.use(cors());
+app.use(bodyParser.json());
 
 // Configura la connessione al database MySQL
 const connection = mysql.createConnection({
@@ -37,6 +39,23 @@ app.get("/api/bikes", (req, res) => {
     }
     res.json(results);
   });
+});
+
+// Dummy user for demonstration purposes
+const dummyUser = {
+  username: "testuser",
+  password: "testpassword",
+};
+
+// Login route
+app.post("/api/login", (req, res) => {
+  const { username, password } = req.body;
+
+  if (username === dummyUser.username && password === dummyUser.password) {
+    res.json({ success: true });
+  } else {
+    res.json({ success: false, message: "Invalid username or password" });
+  }
 });
 
 app.listen(port, () => {

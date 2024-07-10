@@ -1,47 +1,73 @@
 <template>
   <q-page padding>
     <div class="row justify-center">
-      <q-btn @click="fetchBikes" label="Fetch Bikes" />
-    </div>
-    <div v-if="bikes.length">
-      <h2>Bike List:</h2>
-      <q-list bordered padding>
-        <q-item v-for="bike in bikes" :key="bike.bike_type">
-          <q-item-section>
-            <q-item-label>Type: {{ bike.bike_type }}</q-item-label>
-            <q-item-label caption
-              >Battery Level: {{ bike.battery_level }}</q-item-label
-            >
-            <q-item-label caption>Latitude: {{ bike.latitude }}</q-item-label>
-            <q-item-label caption>Longitude: {{ bike.longitude }}</q-item-label>
-            <q-item-label caption
-              >Partner ID: {{ bike.partner_id }}</q-item-label
-            >
-            <q-item-label caption>Reserved: {{ bike.reserved }}</q-item-label>
-            <q-item-label caption>Count Run: {{ bike.count_run }}</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
+      <q-card class="q-pa-md" style="max-width: 400px">
+        <q-card-section>
+          <div class="text-h6">Login</div>
+        </q-card-section>
+
+        <q-card-section>
+          <q-input
+            v-model="username"
+            filled
+            label="Username"
+            @keyup.enter="login"
+          />
+          <q-input
+            v-model="password"
+            filled
+            type="password"
+            label="Password"
+            @keyup.enter="login"
+          />
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn label="Login" color="primary" @click="login" />
+        </q-card-actions>
+      </q-card>
     </div>
   </q-page>
 </template>
 
 <script>
 import axios from "axios";
+import { Loading, QSpinnerGears } from "quasar";
 
 export default {
   data() {
     return {
-      bikes: [],
+      username: "",
+      password: "",
     };
   },
   methods: {
-    async fetchBikes() {
+    async login() {
+      Loading.show({
+        spinner: QSpinnerGears,
+        message: "Logging in...",
+      });
       try {
-        const response = await axios.get("http://localhost:3000/api/bikes");
-        this.bikes = response.data;
+        const response = await axios.post("http://localhost:3000/api/login", {
+          username: this.username,
+          password: this.password,
+        });
+        Loading.hide();
+        if (response.data.success) {
+          this.$router.push({ name: "loggedInPage" });
+        } else {
+          this.$q.notify({
+            type: "negative",
+            message: "Invalid username or password",
+          });
+        }
       } catch (error) {
-        console.error("Error fetching bikes:", error);
+        Loading.hide();
+        console.error("Error logging in:", error);
+        this.$q.notify({
+          type: "negative",
+          message: "An error occurred while logging in",
+        });
       }
     },
   },
