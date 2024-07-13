@@ -18,15 +18,15 @@
 export default {
   data() {
     return {
-      username: "", // Viene aggiornato con il nome utente reale
+      username: "", // This will be updated with the actual username
     };
   },
   created() {
-    this.username = localStorage.getItem("username"); // Recupera il nome utente da localStorage
+    this.username = localStorage.getItem("username"); // Retrieve the username from localStorage
   },
   methods: {
     logout() {
-      localStorage.removeItem("username"); // Rimuove il nome utente da localStorage
+      localStorage.removeItem("username"); // Remove the username from localStorage
       this.$router.push({ name: "login" });
     },
   },
@@ -38,3 +38,4 @@ export default {
   margin-top: 20px;
 }
 </style>
+¥

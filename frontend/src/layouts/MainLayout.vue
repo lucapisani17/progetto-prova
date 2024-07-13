@@ -1,91 +1,107 @@
 <template>
-  <div>
-    <!-- Top bar con logo e nome azienda -->
-    <div class="q-pa-md">
-      <q-toolbar class="bg-blue text-white rounded-borders">
-        <q-toolbar-title>Schiano.GO</q-toolbar-title>
+  <q-layout view="lHh Lpr lFf">
+    <q-header elevated class="bg-custom-blue">
+      <q-toolbar>
+        <q-btn
+          flat
+          dense
+          round
+          icon="menu"
+          aria-label="Menu"
+          @click="toggleLeftDrawer"
+        />
+        <q-toolbar-title> Schiano.GO </q-toolbar-title>
+        <q-space />
+        <q-img src="~assets/logo.png" alt="Logo" class="logo" />
       </q-toolbar>
-    </div>
+    </q-header>
 
-    <!-- Contenuto principale -->
-    <q-layout view="lHh Lpr lFf">
-      <q-page-container>
-        <q-page
-          class="flex flex-center bg-grey-2"
-          style="background-color: #f0f0f0"
-        >
-          <q-card
-            class="q-pa-md shadow-2 my_card"
-            bordered
-            style="
-              background-color: #ffffff;
-              border: 1px solid #000000;
-              border-radius: 10px;
-            "
-          >
-            <q-card-section class="text-center">
-              <div class="text-black text-h5 text-weight-bold">Sign in</div>
-              <div class="text-grey-8">
-                Sign in below to access your account
-              </div>
-            </q-card-section>
-            <q-card-section>
-              <q-input
-                dense
-                outlined
-                v-model="email"
-                label="Username"
-                class="centered-input"
-              ></q-input>
-              <q-input
-                dense
-                outlined
-                class="q-mt-md centered-input"
-                v-model="password"
-                type="password"
-                label="Password"
-              ></q-input>
-            </q-card-section>
-            <q-card-section>
-              <q-btn
-                style="
-                  border-radius: 8px;
-                  background-color: #00008b;
-                  color: #ffffff;
-                "
-                rounded
-                size="md"
-                label="Sign in"
-                no-caps
-                class="full-width"
-              ></q-btn>
-            </q-card-section>
-            <q-card-section class="text-center q-pt-none">
-              <div class="text-grey-8">
-                Don't have an account yet?
-                <a
-                  href="#"
-                  class="text-blue text-weight-bold"
-                  style="text-decoration: none; color: #00008b"
-                  >Sign up.</a
-                >
-              </div>
-            </q-card-section>
-          </q-card>
-        </q-page>
-      </q-page-container>
-    </q-layout>
-  </div>
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
+      <q-list>
+        <q-item-label header> Essential Links </q-item-label>
+
+        <EssentialLink
+          v-for="link in linksList"
+          :key="link.title"
+          v-bind="link"
+        />
+      </q-list>
+    </q-drawer>
+
+    <q-page-container>
+      <router-view />
+    </q-page-container>
+  </q-layout>
 </template>
 
 <script setup>
 import { ref } from "vue";
+import EssentialLink from "components/EssentialLink.vue";
 
-const email = ref("");
-const password = ref("");
+defineOptions({
+  name: "MainLayout",
+});
+
+const linksList = [
+  {
+    title: "Docs",
+    caption: "quasar.dev",
+    icon: "school",
+    link: "https://quasar.dev",
+  },
+  {
+    title: "Github",
+    caption: "github.com/quasarframework",
+    icon: "code",
+    link: "https://github.com/quasarframework",
+  },
+  {
+    title: "Discord Chat Channel",
+    caption: "chat.quasar.dev",
+    icon: "chat",
+    link: "https://chat.quasar.dev",
+  },
+  {
+    title: "Forum",
+    caption: "forum.quasar.dev",
+    icon: "record_voice_over",
+    link: "https://forum.quasar.dev",
+  },
+  {
+    title: "Twitter",
+    caption: "@quasarframework",
+    icon: "rss_feed",
+    link: "https://twitter.quasar.dev",
+  },
+  {
+    title: "Facebook",
+    caption: "@QuasarFramework",
+    icon: "public",
+    link: "https://facebook.quasar.dev",
+  },
+  {
+    title: "Quasar Awesome",
+    caption: "Community Quasar projects",
+    icon: "favorite",
+    link: "https://awesome.quasar.dev",
+  },
+];
+
 const leftDrawerOpen = ref(false);
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
 }
 </script>
+
+<style>
+.logo {
+  width: 50px; /* Imposta la larghezza del logo */
+  height: auto; /* Mantieni le proporzioni */
+  margin-left: 10px; /* Spazio tra il logo e il titolo */
+}
+
+.bg-custom-blue {
+  background-color: #00008b; /* Blu del pulsante Sign in */
+}
+</style>
