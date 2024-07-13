@@ -2,59 +2,90 @@
   <div>
     <!-- Top bar con logo e nome azienda -->
     <div class="q-pa-md">
-      <q-toolbar class="bg-brand text-white rounded-borders">
-      
-        <q-img
-          :src="logo.png"
-          spinner-color="white"
-          style="height: 140px; max-width: 150px; vertical-align: middle;"
-        />
-
-      <q-toolbar-title>Schiano.GO</q-toolbar-title>
-    </q-toolbar>
+      <q-toolbar class="bg-blue text-white rounded-borders">
+        <q-toolbar-title>Schiano.GO</q-toolbar-title>
+      </q-toolbar>
     </div>
 
     <!-- Contenuto principale -->
-      <q-layout view="lHh Lpr lFf">
-        <q-page-container>
-          <q-page class="flex flex-center bg-grey-2" style="background-color: #f0f0f0;">
-            <q-card class="q-pa-md shadow-2 my_card" bordered style="background-color: #ffffff; border: 1px solid #000000; border-radius: 10px;">
-              <q-card-section class="text-center">
-                <div class="text-black text-h5 text-weight-bold">Sign in</div>
-                <div class="text-grey-8">Sign in below to access your account</div>
-              </q-card-section>
-              <q-card-section>
-                <q-input dense outlined v-model="email" label="Username" class="centered-input"></q-input>
-                <q-input dense outlined class="q-mt-md centered-input" v-model="password" type="password" label="Password"></q-input>
-              </q-card-section>
-              <q-card-section>
-                <q-btn style="border-radius: 8px; background-color: #00008B; color: #ffffff;" rounded size="md" label="Sign in" no-caps class="full-width"></q-btn>
-              </q-card-section>
-              <q-card-section class="text-center q-pt-none">
-                <div class="text-grey-8">Don't have an account yet?
-                  <a href="#" class="text-blue text-weight-bold" style="text-decoration: none; color: #00008B;">Sign up.</a></div>
-              </q-card-section>
-            </q-card>
-          </q-page>
-        </q-page-container>
-      </q-layout>
-    </div>
+    <q-layout view="lHh Lpr lFf">
+      <q-page-container>
+        <q-page
+          class="flex flex-center bg-grey-2"
+          style="background-color: #f0f0f0"
+        >
+          <q-card
+            class="q-pa-md shadow-2 my_card"
+            bordered
+            style="
+              background-color: #ffffff;
+              border: 1px solid #000000;
+              border-radius: 10px;
+            "
+          >
+            <q-card-section class="text-center">
+              <div class="text-black text-h5 text-weight-bold">Sign in</div>
+              <div class="text-grey-8">
+                Sign in below to access your account
+              </div>
+            </q-card-section>
+            <q-card-section>
+              <q-input
+                dense
+                outlined
+                v-model="email"
+                label="Username"
+                class="centered-input"
+              ></q-input>
+              <q-input
+                dense
+                outlined
+                class="q-mt-md centered-input"
+                v-model="password"
+                type="password"
+                label="Password"
+              ></q-input>
+            </q-card-section>
+            <q-card-section>
+              <q-btn
+                style="
+                  border-radius: 8px;
+                  background-color: #00008b;
+                  color: #ffffff;
+                "
+                rounded
+                size="md"
+                label="Sign in"
+                no-caps
+                class="full-width"
+              ></q-btn>
+            </q-card-section>
+            <q-card-section class="text-center q-pt-none">
+              <div class="text-grey-8">
+                Don't have an account yet?
+                <a
+                  href="#"
+                  class="text-blue text-weight-bold"
+                  style="text-decoration: none; color: #00008b"
+                  >Sign up.</a
+                >
+              </div>
+            </q-card-section>
+          </q-card>
+        </q-page>
+      </q-page-container>
+    </q-layout>
+  </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
 
-const email = ref('');
-const password = ref('');
+const email = ref("");
+const password = ref("");
 const leftDrawerOpen = ref(false);
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
 }
 </script>
-
-<style>
-  .bg-brand {
-    background-color: #00008B !important;
-  }
-</style>
